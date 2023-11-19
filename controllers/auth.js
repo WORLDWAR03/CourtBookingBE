@@ -1,4 +1,3 @@
-const user = require('../models/userSchema');
 const USER=require('../models/userSchema')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -53,14 +52,14 @@ const doLogin = async (req,res)=>{
           
             res.status(200).json({login:true,token:token,user:user})
            }else{
-            res.status(403).json({login:false,})
+            res.status(403).json({login:false,message:'please check password and username'})
            }
         
               });
            }
         
-    } catch (error) {
-        console.log(error);
+    } catch(error) {
+        res.status(406).json({message:'login failed'})
     }
 
 }

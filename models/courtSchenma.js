@@ -34,10 +34,10 @@ const courtSchema =mongoose.Schema ({
     },
     userId:{
         type:mongoose.Types.ObjectId,
-        ref:'users'
+        ref:'users',
 
     }
 })
 
-const COURT = mongoose.model('court',courtSchema)
+const COURT = mongoose.model('courts',courtSchema)
 module.exports= COURT

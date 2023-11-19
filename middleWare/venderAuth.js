@@ -6,7 +6,6 @@ const venderAuth = (req, res, next) => {
     const token = req.headers["authorization"].split(" "); //returns an array ['Barer', 'jjjjjkdjaoufhoua-token']
 
     jwt.verify(token[1], process.env.JWT, (err, decodedToken) => {
-        console.log(decodedToken);
       if (decodedToken) {
         if (decodedToken?.role === 2 || decodedToken?.role === 3) {
           req.userId = decodedToken.userId;

@@ -18,11 +18,11 @@ const SignUpSchema =mongoose.Schema
     },
     role:{
         type:Number,
-        default:2,
+        default:1,
     },
 })
 
 
 
-const user=mongoose.model('user',SignUpSchema);
+const user=mongoose.model('users',SignUpSchema);
 module.exports=user;
