@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const authRouter= require('./routes/authRouter')
 const userRouter=require('./routes/userRouter')
+const paymentRouter=require('./routes/paymentRouter')
 var venderRouter = require('./routes/venderrouter');
 const connectDataBase = require('./config/dbConfig');
 const cors=require("cors");
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/auth', authRouter);
 app.use('/vender', venderRouter);
 app.use('/users', userRouter);
+app.use('/payment', paymentRouter);
 // app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
