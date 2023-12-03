@@ -45,7 +45,8 @@ const getAvailableSlots=(req,res)=>{
             date:1,
             slot:1,
             cost:1,
-            courts:1
+            courts:1,
+            
 
            
         }

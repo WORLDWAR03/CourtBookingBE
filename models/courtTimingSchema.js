@@ -14,16 +14,21 @@ const courtScheduleSchema = mongoose.Schema({
         type:Number,
         required:true
     },
-    bookedBy:{
-        type:mongoose.Types.ObjectId,
-        ref:'users'
-    },
     cancellation:{
         type:Array,
     },
     courtId:{
         type:mongoose.Types.ObjectId,
         ref:'courts'
+    },
+    bookedBy:{
+        type:mongoose.Types.ObjectId,
+        ref:'users'
+    },
+    orderDetailes:{
+       type:Array,
+
+
     }
 
 
