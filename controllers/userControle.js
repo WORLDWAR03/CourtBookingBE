@@ -18,9 +18,7 @@ const getBookingPage=(req,res)=>{
 }
 
 const getAvailableSlots=(req,res)=>{
-    console.log(req.query.date);
-    console.log(req.query.courtId);
-    console.log(req.query.currentHour)
+   
     try {
 
     COURT_SCHEDULES.aggregate([{
@@ -46,9 +44,8 @@ const getAvailableSlots=(req,res)=>{
             slot:1,
             cost:1,
             courts:1,
+            bookedBy:1,
             
-
-           
         }
     }
 
@@ -65,6 +62,95 @@ const getAvailableSlots=(req,res)=>{
     }
 }
 
+const getMyBookings=(req,res)=>{
+    const currentDate = new Date();
+    const slotId = currentDate.getHours();
+    currentDate.setUTCHours(0,0,0,0);
+    console.log(currentDate,slotId);
+   
+    try {
+   
+        COURT_SCHEDULES.aggregate([
+            {$match:{
+                bookedBy:new ObjectId(req.userId),
+                $expr:{
+                    $or:[
+                        { $gt:['$date',currentDate]},
+                        { $and:[
+                          {$eq:['$date',currentDate]},
+                          {$gt:['$slot.id',slotId]},
+                     ]},
+                    ]
+                    
+                },
+
+            }},{
+                $lookup:{
+                    from:"courts",
+                    localField:"courtId",
+                    foreignField:"_id",
+                    as: "courts"       }
+            },
+           { $project:{
+                  _id:1,
+                  date:1,
+                  slot:1,
+                  cost:1,
+                  courts:{$arrayElemAt:["$courts", 0]}
+                  
+            }}
+        ]).then((resp)=>{
+            res.status(200).json(resp)
+        })
+    } catch (error) {
+        
+    }
+}
+
+const getPreviousBookings=(req,res)=>{
+    const currentDate = new Date();
+    const slotId = currentDate.getHours();
+    currentDate.setUTCHours(0,0,0,0);
+    console.log(currentDate,slotId);
+    try {
+        COURT_SCHEDULES.aggregate([
+            {$match:{
+                bookedBy:new ObjectId(req.userId),
+                $expr:{
+                    $or:[
+                        { $lt:['$date',currentDate]},
+                        { $and:[
+                          {$eq:['$date',currentDate]},
+                          {$lt:['$slot.id',slotId]},
+                     ]},
+                    ]
+                    
+                },
+
+            }},{
+                $lookup:{
+                    from:"courts",
+                    localField:"courtId",
+                    foreignField:"_id",
+                    as: "courts" }
+            },
+           { $project:{
+                  _id:1,
+                  date:1,
+                  slot:1,
+                  cost:1,
+                  courts:{$arrayElemAt:["$courts", 0]}
+                  
+            }}
+        ]).then((resp)=>{
+            res.status(200).json(resp)
+        })  
+    } catch (error) {
+        
+    }
+
+}
 
 
-module.exports =  {getBookingPage, getAvailableSlots}
+
+module.exports =  {getBookingPage, getAvailableSlots, getMyBookings, getPreviousBookings}

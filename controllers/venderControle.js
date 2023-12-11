@@ -27,21 +27,15 @@ const registerNewCourt=(req,res)=>{
                aboutVenue:req.query.about,
                image:req?.file?.filename ,
                userId:req.userId
-
-
             }).save().then(resp=>{
                 res.status(200).json({message:'court registration successful'})
             }).catch ((response)=> {
                 res.status(406).json({message:'all field is required'})
             })
          })
-    
-    
-        
     } catch (error) {
         res.status(406).json({message:'all field is required'})
     }
-
 }
 
 const getMyCourtData=(req,res)=>{
@@ -51,7 +45,7 @@ const getMyCourtData=(req,res)=>{
          })
         
     } catch (error) {
-        
+        res.status(400).json({message:"something went wrong"})
     }
     
 }       
@@ -60,10 +54,9 @@ const getSingleCourtData=(req,res)=>{
 try {
         COURT.findOne({_id:req.query.courtId}).then((response)=>{
             res.status(200).json({data:response})
-            console.log(response,'eeeeeeekrkrr');
         })  
 } catch (error) {
-    
+        res.status
 }
 }
 
@@ -96,7 +89,6 @@ const addCourtTimings=(req,res)=>{
         res.status(200).json({message:'schedules added successfully'})
     }
     )
-        
     } catch (error) {
         res.status(406).json(error)
     }
@@ -119,32 +111,19 @@ const getUpdatedDate =(req,res)=>{
 const ITEMS_PER_PAGE = 2;
 
 const getAllCourtData=(req,res)=>{
-
+    try {
     const page =req.query.page || 1;
     const dataPerPage = 6;
-
-    
-    
-
-    try {
-
-        
-
         COURT.find().skip((page -1) * dataPerPage).limit(dataPerPage)
         .then((resp)=>{
             res.status(200).json({courts:resp})
         })
-        .catch((err)=>{
+        .catch((resp)=>{
             res.status(400).json({message:'something went wrong'})
         })
-
-
-        
     } catch (error) {
-        res.status(406).json(error)
+        res.status(400).json({message:'unautherized request'})
     }
-     
-
 }
 
       

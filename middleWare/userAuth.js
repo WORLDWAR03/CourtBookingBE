@@ -3,7 +3,7 @@ const user = require('../models/userSchema');
 
 const userAuth =(req,res,next)=>{
       try {
-         console.log(req.headers);  
+           
          const token = req.headers['authorization'].split(" ");
          
          jwt.verify(token[1], process.env.JWT, (err, decodedToken) =>{

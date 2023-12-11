@@ -12,7 +12,6 @@ const generateOrder = async(req,res)=>{
         if(slotData.bookedBy){
             res.status(500).json({message:"slot already booked"})
         }
-        console.log(slotData,"slot data ividee ");;
 
         const instance = new Razorpay({
             key_id: process.env.RAZORPAY_KEY_ID,
@@ -77,7 +76,7 @@ const success =async(req,res)=>{
 
 }
 
-const initiateEmail=async (id)=>{
+const initiateEmail=async (id, razorpayPaymentId)=>{
 
 let userData = await COURT_SCHEDULES.findOne({_id:id}).populate('bookedBy').populate('courtId')
 
@@ -95,10 +94,10 @@ console.log(bookedBy,date,cost,courtId);
 
   const info = await transporter.sendMail({
     from: "slook.in.here@gmail.com", 
-    to: bookedBy.email, 
+    to: "manjumurali3941@gmail.com", 
     subject: "Booking Confirmed ✔",
     text: "Hello world?", 
-    html: `<b> Thankyou ${bookedBy.fullName} for choosing PlEY to book your playground.Your booking has been confirmed for ${date.toISOString().split('T')[0]} at ${slot} in ${courtId.businessName} booked  stay fit stay healthy .</b>`, 
+    html: `<b> Thankyou ${bookedBy.fullName} for choosing PlEY to book your playground.Your booking has been confirmed with${ razorpayPaymentId} for ${date.toISOString().split('T')[0]} at ${slot} in ${courtId.businessName} . stay fit stay healthy .</b>`, 
   });
   console.log("Message sent: %s", info.messageId);
 }
