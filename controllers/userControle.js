@@ -250,4 +250,16 @@ const getThisScheduleData=(req,res)=>{
     }
 }
 
-module.exports =  {getBookingPage, getAvailableSlots, getMyBookings, getPreviousBookings, forgetpassword, resetPassword, getThisScheduleData}
+const cancelBooking= async(req,res)=>{
+    try {
+       const{id}=req.body
+       console.log(id);
+      const Schedule = await COURT_SCHEDULES.find({_id:id})
+      const orderDetailes = Schedule[0].orderDetailes
+      console.log(orderDetailes);
+      console.log(Schedule);
+    } catch (error) {
+    }
+}
+
+module.exports =  {getBookingPage, getAvailableSlots, getMyBookings, getPreviousBookings, forgetpassword, resetPassword, getThisScheduleData, cancelBooking}
