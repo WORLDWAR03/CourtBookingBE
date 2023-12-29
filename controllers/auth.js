@@ -26,7 +26,6 @@ const doSignUp=(req,res)=>{
         });
     
     } catch (error) {
-        console.log(error);
         res.status(502).json({signup:false,message:error})
     }
 

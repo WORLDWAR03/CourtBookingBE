@@ -105,7 +105,6 @@ const getPreviousBookings = (req, res) => {
   const currentDate = new Date();
   const slotId = currentDate.getHours();
   currentDate.setUTCHours(0, 0, 0, 0);
-  console.log(currentDate, slotId);
   try {
     COURT_SCHEDULES.aggregate([
       {
@@ -174,7 +173,7 @@ const forgetpassword = (req, res) => {
           text: `http://localhost:3000/reset-password/${user._id}/${token}`,
           html: `<b>use this link to reset your password:http://localhost:3000/reset-password/${user._id}/${token}</b>`,
         });
-        console.log("Message sent: %s", info.messageId);
+        ("Message sent: %s", info.messageId);
 
         return res.send({ staus: "success" });
       }
@@ -252,7 +251,6 @@ const cancelBooking = async (req, res) => {
           $push: { cancellation: { _id: req.userId } },
         }
       );
-      console.log(update);
       return res
         .status(200)
         .json({ message: "scheduled cancelled successfully" });
@@ -267,7 +265,6 @@ const cancelBooking = async (req, res) => {
 const getCancelldBookings = (req, res) => {
   try {
     const id = req.userId;
-    console.log(id);
     COURT_SCHEDULES.aggregate([
       {
         $match: {
@@ -292,10 +289,8 @@ const getCancelldBookings = (req, res) => {
           courts: { $arrayElemAt: ["$courts", 0] },
         },
       },
-    ])
-    .then((response) => {
+    ]).then((response) => {
       res.status(200).json(response);
-      console.log(response, "eeeeeeeeeeeeeeeeeeeee");
     });
   } catch (error) {
     res.send(error);

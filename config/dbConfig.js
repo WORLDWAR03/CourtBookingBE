@@ -5,10 +5,7 @@ const connectDataBase= async ()=>{
             useNewUrlParser: "true",
 
         })
-        console.log("MongoDB data base connected")
     }catch(error){
-        console.log(error);
-
     }
 }
 
